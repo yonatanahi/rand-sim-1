@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const todos = []
-let id = 1
+let id = 0
 
 router.get('/todos', function (req, res) {
     res.send(todos)
@@ -18,15 +18,18 @@ router.post('/todo', function (req, res) {
 
 router.put('/todo/:todoID', function (req, res) {
     const todoID = req.params.todoID
-
-    todos.find(t => t.id == todoID).completed = true
+    todo = todos.find(t => t.id == todoID)
+    todo.complete = !todo.complete
     res.send(todos)
 })
 
 router.delete('/todo/:todoID', function (req, res) {
     const todoID = req.params.todoID
-    todos.splice(todoID, 1)
-
+    for(let todo in todos){
+        if(todos[todo].id == todoID){
+            todos.splice(todo,1)
+        }
+    }   
     res.send(todos)
 })
 
